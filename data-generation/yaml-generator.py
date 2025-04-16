@@ -102,10 +102,34 @@ def generate_pipe_tree_yaml(
         child_index = i
         parent_name = pipes[parent_index]['name']
         child_name = pipes[child_index]['name']
-        
         # Record the connections
         pipes[child_index]['left_connections'].append(parent_name)
         pipes[parent_index]['right_connections'].append(child_name)
+
+    # -------------------------------
+    # 3.5) Distribute flow values
+    # -------------------------------
+    # Build a name->pipe mapping for easy lookup
+    name_to_pipe = {pipe['name']: pipe for pipe in pipes}
+    # Set root flow
+    pipes[0]['flow'] = flow_value
+    # Traverse tree and assign flows
+    from collections import deque
+    queue = deque([pipes[0]])
+    while queue:
+        parent = queue.popleft()
+        children_names = parent['right_connections']
+        if not children_names:
+            continue
+        # Get children pipes
+        children = [name_to_pipe[name] for name in children_names]
+        # Compute sum of r^4
+        radii_4 = [child['radius']**4 for child in children]
+        total_r4 = sum(radii_4)
+        # Assign flows
+        for child, r4 in zip(children, radii_4):
+            child['flow'] = parent['flow'] * (r4 / total_r4) if total_r4 > 0 else 0
+            queue.append(child)
 
     # -------------------------------
     # 4) Place Receivers
@@ -123,12 +147,13 @@ def generate_pipe_tree_yaml(
         # random position (z, r, theta)
         z = random.uniform(-0.9 * pipe_length, 0.9 * pipe_length)
         r = random.uniform(0.1 * pipe_radius, 0.9 * pipe_radius)
+        radius = random.uniform(0.1 * pipe_radius, 0.3 * pipe_radius)
         theta = random.uniform(0, 2 * math.pi)
         
         receiver_data = {
             'type': 'Sphere type',
             'name': f"#{receiver_id}-Sphere type",
-            'radius': r,  # radius for the receiver in [0.1..0.9]*pipe radius
+            'radius': radius,  # radius for the receiver in [0.1..0.3]*pipe radius
             'z': z,
             'r': r,
             'theta': theta
@@ -213,7 +238,8 @@ def generate_pipe_tree_yaml(
 
     data = {
         'pipes': pipes_dict,
-        'sinks': sinks
+        'sinks': sinks,
+        'flow': flow_value
     }
 
     # Convert to YAML string
@@ -223,17 +249,17 @@ def generate_pipe_tree_yaml(
 def generate_n_times(n):
     for i in range(n):
         yaml_output = generate_pipe_tree_yaml(
-            min_pipe_num=3,
+            min_pipe_num=5,
             max_pipe_num=100,
-            min_receiver_num=1,
-            max_receiver_num=100,
+            min_receiver_num=5,
+            max_receiver_num=50,
             min_pipe_radius=0.0001,
             max_pipe_radius=0.001,
             min_pipe_length=0.0001,
             max_pipe_length=0.001,
-            flow_value=0.0001,
-        min_particle_count=1000,
-        max_particle_count=2000)
+            flow_value=0.01,
+            min_particle_count=1000,
+            max_particle_count=2000)
     
         # Save to file
         with open(f"configs/network_config_{i}.yaml", "w") as f:
