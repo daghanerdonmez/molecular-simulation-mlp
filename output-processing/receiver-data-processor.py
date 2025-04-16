@@ -4,6 +4,9 @@ import glob
 import numpy as np
 from scipy import stats
 
+dt = 0.01
+total_time = 500
+
 def read_integers_from_file(filename):
     """Read the second line from a file and convert it to a list of integers."""
     with open(filename, 'r') as file:
@@ -38,9 +41,9 @@ def calculate_statistics(arr):
     skewness = stats.skew(arr) if len(arr) > 2 else 0
     
     return {
-        'first_nonzero_index': first_nonzero_index,
+        'first_nonzero_time': first_nonzero_index*dt,
         'max_value': max_value,
-        'max_index': max_index,
+        'max_time': max_index*dt,
         'total_sum': total_sum,
         'mean': mean,
         'std': std,
@@ -82,11 +85,17 @@ def process_receiver_files(source_path):
             receiver_files = glob.glob(os.path.join(pipe_path, "#*.txt"))
             
             for receiver_file in receiver_files:
+        
                 file_name = os.path.basename(receiver_file)
                 
                 try:
                     # Read data from the file
                     first_line, integer_list = read_integers_from_file(receiver_file)
+                    first_line_list = first_line.split()
+                    first_line_list[0] = first_line_list[0].strip("pipe")
+                    first_line_list[0] = first_line_list[0].split("-")[0]
+                    first_line = " ".join(first_line_list)
+                    first_line += "\n"
                     
                     # Calculate statistics
                     stats = calculate_statistics(integer_list)
@@ -96,13 +105,13 @@ def process_receiver_files(source_path):
                     
                     # Format statistics as a string
                     stats_str = (
-                        f"First nonzero index: {stats['first_nonzero_index']}, "
-                        f"Max value: {stats['max_value']}, "
-                        f"Max index: {stats['max_index']}, "
-                        f"Total sum: {stats['total_sum']}, "
-                        f"Mean: {stats['mean']:.4f}, "
-                        f"Std: {stats['std']:.4f}, "
-                        f"Skewness: {stats['skewness']:.4f}"
+                        f"{stats['first_nonzero_time']}, "
+                        f"{stats['max_value']}, "
+                        f"{stats['max_time']}, " 
+                        f"{stats['total_sum']}, "
+                        f"{stats['mean']:.4f}, "
+                        f"{stats['std']:.4f}, "
+                        f"{stats['skewness']:.4f}"
                     )
                     
                     # Write statistics back to the file
@@ -114,7 +123,39 @@ def process_receiver_files(source_path):
                     print(f"  Statistics: {stats_str}")
                 except Exception as e:
                     print(f"Error processing {receiver_file}: {e}")
-    
+
+            # Find all the simulation_data files
+            simulation_data_files = glob.glob(os.path.join(pipe_path, "simulation_data.txt"))
+
+            for simulation_data_file in simulation_data_files:
+                file_name = os.path.basename(simulation_data_file)
+
+                # If the second word of the first line is none, change it to -1
+                with open(simulation_data_file, 'r') as file:
+                    first_line = file.readline()
+                    first_line_list = first_line.split()
+                    if first_line_list[1] == "none":
+                        first_line_list[1] = "-1"
+                        first_line = " ".join(first_line_list)
+                        first_line += "\n"
+                    else:
+                        # The second word is in the format pipex-y
+                        # Change it to x
+                        first_line_list[1] = first_line_list[1].split("-")[0]
+                        first_line_list[1] = first_line_list[1].strip("pipe")
+                        first_line = " ".join(first_line_list)
+                        first_line += "\n"
+                    
+                    # Do the same to the first word
+                    first_line_list[0] = first_line_list[0].split("-")[0]
+                    first_line_list[0] = first_line_list[0].strip("pipe")
+                    first_line = " ".join(first_line_list)
+                    first_line += "\n"
+
+                # Write back to the file
+                with open(simulation_data_file, 'w') as file:
+                    file.write(first_line)
+
     return results
 
 if __name__ == "__main__":
