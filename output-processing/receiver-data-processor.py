@@ -155,6 +155,38 @@ def process_receiver_files(source_path):
                 # Write back to the file
                 with open(simulation_data_file, 'w') as file:
                     file.write(first_line)
+                    
+            # Find all targetOutput.txt files
+            target_output_files = glob.glob(os.path.join(run_path, "targetOutput.txt"))
+            
+            for target_output_file in target_output_files:
+                file_name = os.path.basename(target_output_file)
+                
+                try:
+                    # Read the file
+                    with open(target_output_file, 'r') as file:
+                        content = file.read().strip()
+                    
+                    # Process the content (format: "pipe8-e 0.000160 -0.001731:")
+                    if content:
+                        # Split by space to get the pipe name and values
+                        parts = content.split()
+                        
+                        if parts and parts[0].startswith("pipe"):
+                            # Extract just the number from the pipe name (e.g., "pipe8-e" -> "8")
+                            pipe_name = parts[0].strip("pipe").split("-")[0]
+                            
+                            # Reconstruct the line with just the number
+                            new_content = f"{pipe_name} {' '.join(parts[1:])}"
+                            
+                            # Write back to the file
+                            with open(target_output_file, 'w') as file:
+                                file.write(new_content)
+                            
+                            print(f"Processed: {run_folder}/{pipe_folder}/{file_name}")
+                            print(f"  Converted: '{content}' to '{new_content}'")
+                except Exception as e:
+                    print(f"Error processing {target_output_file}: {e}")
 
     return results
 

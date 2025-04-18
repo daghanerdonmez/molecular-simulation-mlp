@@ -107,6 +107,23 @@ def generate_pipe_tree_yaml(
         pipes[parent_index]['right_connections'].append(child_name)
 
     # -------------------------------
+    # 3.1) Assign depth to each pipe
+    # -------------------------------
+    # BFS from root, set depth for each pipe
+    name_to_pipe = {pipe['name']: pipe for pipe in pipes}
+    pipes[0]['depth'] = 0
+    from collections import deque
+    queue = deque([pipes[0]])
+    while queue:
+        parent = queue.popleft()
+        parent_depth = parent['depth']
+        for child_name in parent['right_connections']:
+            if child_name in name_to_pipe:
+                child = name_to_pipe[child_name]
+                child['depth'] = parent_depth + 1
+                queue.append(child)
+
+    # -------------------------------
     # 3.5) Distribute flow values
     # -------------------------------
     # Build a name->pipe mapping for easy lookup
@@ -123,19 +140,19 @@ def generate_pipe_tree_yaml(
             continue
         # Get children pipes
         children = [name_to_pipe[name] for name in children_names]
-        # Compute sum of r^4
-        radii_4 = [child['radius']**4 for child in children]
-        total_r4 = sum(radii_4)
+        # Compute sum of r
+        radii = [child['radius'] for child in children]
+        total_r = sum(radii)
         # Assign flows
-        for child, r4 in zip(children, radii_4):
-            child['flow'] = parent['flow'] * (r4 / total_r4) if total_r4 > 0 else 0
+        for child, r in zip(children, radii):
+            child['flow'] = parent['flow'] * (r / total_r) if total_r > 0 else 0
             queue.append(child)
 
     # -------------------------------
     # 4) Place Receivers
     # -------------------------------
     # We first determine how many total receivers to place across all pipes
-    receiver_count = random.randint(min_receiver_num, max_receiver_num)
+    receiver_count = random.randint(int(0.5 * pipe_count), int(1.5 * pipe_count))
     receiver_id = 1  # to give them distinct names
 
     for _ in range(receiver_count):
@@ -146,7 +163,7 @@ def generate_pipe_tree_yaml(
         
         # random position (z, r, theta)
         z = random.uniform(-0.9 * pipe_length, 0.9 * pipe_length)
-        r = random.uniform(0.1 * pipe_radius, 0.9 * pipe_radius)
+        r = random.uniform(0.1 * pipe_radius, 0.2 * pipe_radius)
         radius = random.uniform(0.1 * pipe_radius, 0.3 * pipe_radius)
         theta = random.uniform(0, 2 * math.pi)
         
@@ -165,7 +182,16 @@ def generate_pipe_tree_yaml(
     # 5) Place a single Emitter
     # -------------------------------
     # choose exactly one pipe to have an emitter
-    emitter_pipe_idx = random.randint(0, pipe_count - 1)
+    # Weighted random selection: lower depth = higher chance
+    # I might need to change or remove this weigthed selection later because it can create a bias for the ml model
+    depths = [pipe.get('depth', 0) for pipe in pipes]
+    max_depth = max(depths)
+    # Use exponential decay for weights
+    alpha = 1.0 / (max_depth + 1) if max_depth > 0 else 1.0
+    weights = [math.exp(-alpha * d) for d in depths]
+    total_weight = sum(weights)
+    norm_weights = [w / total_weight for w in weights]
+    emitter_pipe_idx = random.choices(range(pipe_count), weights=norm_weights, k=1)[0]
     emitter_pipe_radius = pipes[emitter_pipe_idx]['radius']
     emitter_pipe_length = pipes[emitter_pipe_idx]['length']
     
@@ -203,6 +229,17 @@ def generate_pipe_tree_yaml(
             sinks[sink_name] = {
                 'left_connections': [pipe['name']]
             }
+            # I will also add a receiver to the end of each leaf node for now.
+            receiver_data = {
+                'type': 'Sphere type',
+                'name': f"#{receiver_id}-Sphere type",
+                'radius': pipe['radius'],
+                'z': pipe['length'],
+                'r': 0,
+                'theta': 0
+            }
+            pipe['receivers'].append(receiver_data)
+            receiver_id += 1
 
     # -------------------------------
     # 7) Build final YAML structure
@@ -251,15 +288,13 @@ def generate_n_times(n):
         yaml_output = generate_pipe_tree_yaml(
             min_pipe_num=5,
             max_pipe_num=100,
-            min_receiver_num=5,
-            max_receiver_num=50,
             min_pipe_radius=0.0001,
-            max_pipe_radius=0.001,
-            min_pipe_length=0.0001,
-            max_pipe_length=0.001,
-            flow_value=0.01,
-            min_particle_count=1000,
-            max_particle_count=2000)
+            max_pipe_radius=0.0005,
+            min_pipe_length=0.002,
+            max_pipe_length=0.005,
+            flow_value=0.05,
+            min_particle_count=4000,
+            max_particle_count=10000)
     
         # Save to file
         with open(f"configs/network_config_{i}.yaml", "w") as f:
@@ -268,4 +303,4 @@ def generate_n_times(n):
 
 
 if __name__ == "__main__":
-    generate_n_times(100)
+    generate_n_times(1000)
