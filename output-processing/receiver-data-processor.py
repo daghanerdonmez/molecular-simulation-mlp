@@ -192,8 +192,7 @@ def process_receiver_files(source_path):
 
 if __name__ == "__main__":
     # Path to the Outputs directory
-    source_path = "/Users/daghanerdonmez/Desktop/ML TRAINING TRIALS/TRIAL 5 size 1000/Outputs"
-    
+    source_path = "/Users/daghanerdonmez/Desktop/ML TRAINING TRIALS/TRIAL 3 size 1000/outputs"
     # Process all receiver files
     results = process_receiver_files(source_path)
     
