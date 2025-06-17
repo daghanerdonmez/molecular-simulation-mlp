@@ -2,3 +2,9 @@
 /data-generation/configs
 /output-processing/Outputs_Copy
 data-generation/.DS_Store
+/output-processing/train-data/2025.04.18-12.00.45.377
+/output-processing/train-data
+/output-processing/validation-data
+.DS_Store
+/data-generation/configs_2
+.DS_Store

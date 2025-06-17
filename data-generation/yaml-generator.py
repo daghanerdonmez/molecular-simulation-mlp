@@ -3,10 +3,8 @@ import math
 import yaml
 
 def generate_pipe_tree_yaml(
-    min_pipe_num=5, 
-    max_pipe_num=10,
-    min_receiver_num=2, 
-    max_receiver_num=5,
+    min_pipe_num=10, 
+    max_pipe_num=20,
     min_pipe_radius=0.0001, 
     max_pipe_radius=0.001,
     min_pipe_length=0.0001, 
@@ -286,15 +284,15 @@ def generate_pipe_tree_yaml(
 def generate_n_times(n):
     for i in range(n):
         yaml_output = generate_pipe_tree_yaml(
-            min_pipe_num=5,
-            max_pipe_num=100,
+            min_pipe_num=10,
+            max_pipe_num=20,
             min_pipe_radius=0.0001,
             max_pipe_radius=0.0005,
             min_pipe_length=0.002,
             max_pipe_length=0.005,
-            flow_value=0.05,
-            min_particle_count=4000,
-            max_particle_count=10000)
+            flow_value=0.01,
+            min_particle_count=1000,
+            max_particle_count=4000)
     
         # Save to file
         with open(f"configs/network_config_{i}.yaml", "w") as f:
@@ -303,4 +301,4 @@ def generate_n_times(n):
 
 
 if __name__ == "__main__":
-    generate_n_times(1000)
+    generate_n_times(20)

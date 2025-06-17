@@ -1,0 +1,527 @@
+pipes:
+  pipe1:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections: []
+    right_connections:
+    - pipe2
+    - pipe3
+    - pipe4
+    flow: 0.0005
+  pipe2:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe1
+    right_connections:
+    - pipe5
+    - pipe6
+    flow: 0.003333333333333333
+  pipe3:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe1
+    right_connections:
+    - pipe7
+    flow: 0.003333333333333333
+  pipe4:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe1
+    right_connections:
+    - pipe8
+    - pipe9
+    - pipe11
+    - pipe10
+    flow: 0.003333333333333333
+  pipe5:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe2
+    right_connections:
+    - pipe14
+    - pipe16
+    - pipe17
+    flow: 0.0016666666666666666
+  pipe6:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe2
+    right_connections:
+    - pipe15
+    - pipe19
+    flow: 0.0016666666666666666
+  pipe7:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe3
+    right_connections:
+    - sink1
+    flow: 0.003333333333333333
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe8:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe4
+    right_connections:
+    - pipe12
+    - pipe18
+    flow: 0.0008333333333333333
+  pipe9:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe4
+    right_connections:
+    - sink2
+    flow: 0.0008333333333333333
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe10:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe4
+    right_connections:
+    - pipe24
+    - pipe25
+    flow: 0.0008333333333333333
+  pipe11:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe4
+    right_connections:
+    - pipe13
+    flow: 0.0008333333333333333
+  pipe12:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe8
+    right_connections:
+    - sink18
+    flow: 0.00041666666666666664
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe13:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe11
+    right_connections:
+    - pipe20
+    - pipe21
+    flow: 0.0008333333333333333
+  pipe14:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe5
+    right_connections:
+    - sink14
+    flow: 0.0005555555555555554
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe15:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe6
+    right_connections:
+    - sink17
+    flow: 0.0008333333333333333
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe16:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe5
+    right_connections:
+    - sink15
+    flow: 0.0005555555555555554
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe17:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe5
+    right_connections:
+    - sink16
+    flow: 0.0005555555555555554
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe18:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe8
+    right_connections:
+    - pipe26
+    - pipe27
+    - pipe28
+    flow: 0.00041666666666666664
+  pipe19:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe6
+    right_connections:
+    - pipe29
+    flow: 0.0008333333333333333
+  pipe20:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe13
+    right_connections:
+    - pipe22
+    - pipe23
+    flow: 0.00041666666666666664
+  pipe21:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe13
+    right_connections:
+    - sink5
+    flow: 0.00041666666666666664
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe22:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe20
+    right_connections:
+    - sink3
+    flow: 0.00020833333333333332
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe23:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe20
+    right_connections:
+    - sink4
+    flow: 0.00020833333333333332
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe24:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe10
+    right_connections:
+    - sink6
+    flow: 0.00041666666666666664
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe25:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe10
+    right_connections:
+    - pipe37
+    - pipe36
+    - pipe35
+    flow: 0.00041666666666666664
+  pipe26:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe18
+    right_connections:
+    - sink9
+    flow: 0.00013888888888888886
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe27:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe18
+    right_connections:
+    - sink8
+    flow: 0.00013888888888888886
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe28:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe18
+    right_connections:
+    - sink7
+    flow: 0.00013888888888888886
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe29:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe19
+    right_connections:
+    - pipe30
+    - pipe31
+    flow: 0.0008333333333333333
+  pipe30:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe29
+    right_connections:
+    - pipe32
+    - pipe33
+    - pipe34
+    flow: 0.00041666666666666664
+  pipe31:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe29
+    right_connections:
+    - sink10
+    flow: 0.00041666666666666664
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe32:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe30
+    right_connections:
+    - sink11
+    flow: 0.00013888888888888886
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe33:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe30
+    right_connections:
+    - sink12
+    flow: 0.00013888888888888886
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe34:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe30
+    right_connections:
+    - sink13
+    flow: 0.00013888888888888886
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe35:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe25
+    right_connections:
+    - pipe39
+    - pipe38
+    flow: 0.00013888888888888886
+  pipe36:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe25
+    right_connections:
+    - sink19
+    flow: 0.00013888888888888886
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe37:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe25
+    right_connections:
+    - sink20
+    flow: 0.00013888888888888886
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe38:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe35
+    right_connections:
+    - sink21
+    flow: 6.944444444444443e-05
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+  pipe39:
+    length: 0.005
+    radius: 0.0005
+    particle_count: 0
+    left_connections:
+    - pipe35
+    right_connections:
+    - sink22
+    flow: 6.944444444444443e-05
+    receivers:
+    - type: Ring type
+      z: 0.0045
+      name: '#1-Ring type'
+sinks:
+  sink1:
+    left_connections:
+    - pipe7
+  sink2:
+    left_connections:
+    - pipe9
+  sink3:
+    left_connections:
+    - pipe22
+  sink4:
+    left_connections:
+    - pipe23
+  sink5:
+    left_connections:
+    - pipe21
+  sink6:
+    left_connections:
+    - pipe24
+  sink7:
+    left_connections:
+    - pipe28
+  sink8:
+    left_connections:
+    - pipe27
+  sink9:
+    left_connections:
+    - pipe26
+  sink10:
+    left_connections:
+    - pipe31
+  sink11:
+    left_connections:
+    - pipe32
+  sink12:
+    left_connections:
+    - pipe33
+  sink13:
+    left_connections:
+    - pipe34
+  sink14:
+    left_connections:
+    - pipe14
+  sink15:
+    left_connections:
+    - pipe16
+  sink16:
+    left_connections:
+    - pipe17
+  sink17:
+    left_connections:
+    - pipe15
+  sink18:
+    left_connections:
+    - pipe12
+  sink19:
+    left_connections:
+    - pipe36
+  sink20:
+    left_connections:
+    - pipe37
+  sink21:
+    left_connections:
+    - pipe38
+  sink22:
+    left_connections:
+    - pipe39

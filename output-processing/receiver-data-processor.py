@@ -119,8 +119,8 @@ def process_receiver_files(source_path):
                         file.write(first_line)  # Write the first line back
                         file.write(stats_str)   # Write statistics
                     
-                    print(f"Processed: {run_folder}/{pipe_folder}/{file_name}")
-                    print(f"  Statistics: {stats_str}")
+                    #print(f"Processed: {run_folder}/{pipe_folder}/{file_name}")
+                    #print(f"  Statistics: {stats_str}")
                 except Exception as e:
                     print(f"Error processing {receiver_file}: {e}")
 
@@ -183,8 +183,8 @@ def process_receiver_files(source_path):
                             with open(target_output_file, 'w') as file:
                                 file.write(new_content)
                             
-                            print(f"Processed: {run_folder}/{pipe_folder}/{file_name}")
-                            print(f"  Converted: '{content}' to '{new_content}'")
+                            #print(f"Processed: {run_folder}/{pipe_folder}/{file_name}")
+                            #print(f"  Converted: '{content}' to '{new_content}'")
                 except Exception as e:
                     print(f"Error processing {target_output_file}: {e}")
 
@@ -192,19 +192,19 @@ def process_receiver_files(source_path):
 
 if __name__ == "__main__":
     # Path to the Outputs directory
-    source_path = "/Users/daghanerdonmez/Desktop/molecular-simulation/molecular-simulation/src/output/Outputs"
+    source_path = "/Users/daghanerdonmez/Desktop/ML TRAINING TRIALS/TRIAL 5 size 1000/Outputs"
     
     # Process all receiver files
     results = process_receiver_files(source_path)
     
     # Print summary
-    print("\nProcessing Summary:")
+    #print("\nProcessing Summary:")
     for run, pipes in results.items():
-        print(f"Run: {run}")
+        #print(f"Run: {run}")
         for pipe, files in pipes.items():
-            print(f"  Pipe: {pipe}")
+            #print(f"  Pipe: {pipe}")
             for file, stats in files.items():
-                print(f"    File: {file}")
+                #print(f"    File: {file}")
                 for stat_name, stat_value in stats.items():
                     if isinstance(stat_value, float):
                         print(f"      {stat_name}: {stat_value:.4f}")
